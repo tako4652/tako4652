@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sList"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/touch_select"
+    android:clickable="true"
+    android:longClickable="true"
+    android:onClick="onTouch"
+    android:orientation="vertical" >
+
+    <View
+        style="@style/underLine"
+        android:layout_height="1dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical" >
+
+        <View style="@style/Dot" />
+
+        <TextView
+            android:id="@+id/sNo"
+            style="@style/Number" />
+
+        <TextView
+            android:id="@+id/sName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp_10" />
+
+    </LinearLayout>
+
+    <View
+        style="@style/underLine"
+        android:layout_height="1dp" />
+
+</LinearLayout>

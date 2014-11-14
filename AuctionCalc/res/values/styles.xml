@@ -1,0 +1,117 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="scale01">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_span">1</item>
+    </style>
+    <style name="label01">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="underLine">
+        <item name="android:background">@drawable/line01</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dp</item>
+        </style>
+
+    <style name="Dot">
+    	<item name="android:layout_width">@dimen/dp_5</item>
+        <item name="android:layout_height">@dimen/dp_10</item>
+        <item name="android:layout_marginLeft">@dimen/dp_5</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:background">@drawable/line01</item>
+        <item name="android:width">20dp</item>
+        <item name="android:gravity">right</item>
+    </style>
+
+    <style name="Number">
+    	<item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:width">20dp</item>
+        <item name="android:gravity">right</item>
+    </style>
+
+    <style name="GuildDetail">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_25</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@drawable/touch_select</item>
+    </style>
+
+    <style name="GuildName">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/dp_5</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:width">180dp</item>
+    </style>
+
+    <style name="GuildMemberCount">
+    	<item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/dp_5</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:width">30dp</item>
+        <item name="android:gravity">right</item>
+
+    </style>
+
+    <style name="GuildDevidendPaid">
+    	<item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/dp_5</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:width">90dp</item>
+        <item name="android:gravity">right</item>
+    </style>
+
+    <style name="ItemDetail">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@drawable/touch_select</item>
+        <item name="android:clickable">true</item>
+        <item name="android:onClick">onTouch</item>
+    </style>
+
+    <style name="ItemHeightAdjust">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_50</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        </style>
+
+    <style name="ItemDetail2">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="ItemBid">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/dp_5</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="ItemName">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/dp_5</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="ItemBidDetail">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/dp_5</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">right</item>
+    </style>
+
+</resources>

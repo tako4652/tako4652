@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AuctionCalc</string>
+    <string name="mission_name">ミッション名</string>
+    <string name="datetime">日時：</string>
+    <string name="total">合計：</string>
+    <string name="devidend_paid">頭割：</string>
+    <string name="AuctionGuildName">参加党リスト</string>
+    <string name="AuctionItemName">オークションアイテムリスト</string>
+    <string name="mission_list">ミッションリスト</string>
+    <string name="guild_list">党リスト</string>
+    <string name="item_list">アイテムリスト</string>
+    <string name="guildAddButton">参加党追加</string>
+    <string name="itemAddButton">オークションアイテム追加</string>
+    <string name="missionAdd">ミッション名追加</string>
+    <string name="guildAdd">党名追加</string>
+    <string name="itemAdd">アイテム追加</string>
+    <string name="missionDuplicate">既に同じミッションが存在します。</string>
+    <string name="guildDuplicate">既に同じ党が存在します。</string>
+    <string name="itemDuplicate">既に同じアイテムが存在します。</string>
+    <string name="input_text">人数入力</string>
+    <string name="misshon_image">ミッションイメージ</string>
+</resources>
