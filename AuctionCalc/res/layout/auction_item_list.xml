@@ -16,7 +16,8 @@
 
         <TextView
             android:id="@+id/iNo"
-            style="@style/Number" />
+            style="@style/Number"
+            android:textColor="@color/black" />
 
         <LinearLayout
             style="@style/ItemDetail2"
@@ -24,14 +25,16 @@
 
             <TextView
                 android:id="@+id/iItemName"
-                style="@style/ItemName" />
+                style="@style/ItemName"
+                android:textColor="@color/black" />
 
             <LinearLayout style="@style/ItemBid" >
 
                 <TextView
                     android:id="@+id/iBid"
                     style="@style/ItemBidDetail"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/black" />
 
             </LinearLayout>
 

@@ -27,7 +27,6 @@ public class MainView extends Activity {
 	private TextView tvMemberCount;
 	private TextView tvTotal;
 	private TextView tvPayd;
-	private TextView tvDevid;
 
 	private LinearLayout base;
 	private LinearLayout guild;
@@ -45,7 +44,6 @@ public class MainView extends Activity {
 		tvMemberCount = (TextView) act.findViewById(R.id.MemberCount);
 		tvTotal = (TextView) act.findViewById(R.id.Total);
 		tvPayd = (TextView) act.findViewById(R.id.Payed);
-		tvDevid = (TextView) act.findViewById(R.id.Devid);
 
 		base = (LinearLayout) act.findViewById(R.id.mBase);
 		guild = (LinearLayout) base.findViewById(R.id.guild);
@@ -148,7 +146,6 @@ public class MainView extends Activity {
 
 	public void setDevided(int devided) {
 		((TextView) tvPayd).setText(String.format("%d", devided));
-		((TextView) tvDevid).setText("(" + String.format("%d", devided) + ")");
 
 	}
 

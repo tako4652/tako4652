@@ -26,7 +26,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/dp_5"
-                    android:text="@string/mission_name" />
+                    android:text="@string/mission_name"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/MissionName"
@@ -56,12 +57,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/datetime" />
+                    android:text="@string/datetime"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/MissionDateTime"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black" />
 
             </LinearLayout>
         </LinearLayout>
@@ -86,13 +89,15 @@
                     android:id="@+id/GuildCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/dp_5" />
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/MemberCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_5" />
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:textColor="@color/black" />
 
             </LinearLayout>
 
@@ -104,19 +109,22 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/total" />
+                    android:text="@string/total"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/Total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/dp_5" />
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_5"
-                    android:text="@string/devidend_paid" />
+                    android:text="@string/devidend_paid"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/Payed"
@@ -124,12 +132,6 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/Devid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
 
             </LinearLayout>
         </LinearLayout>

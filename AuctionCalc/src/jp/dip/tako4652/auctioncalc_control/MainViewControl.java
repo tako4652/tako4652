@@ -98,7 +98,9 @@ public class MainViewControl extends Activity implements OnLongClickListener {
 				try {
 					if (extras != null)
 						member = extras.getString(NUMBER);
-					AGA.add(new AuctionGuildDTO(name, Integer.valueOf(member)));
+					int i = Integer.valueOf(member);
+					if (i >= 0)
+						AGA.add(new AuctionGuildDTO(name, i));
 				} catch (GuildNameDuplicateException e) {
 					mView.dispToast(
 							getResources().getString(R.string.guildDuplicate),
@@ -159,7 +161,7 @@ public class MainViewControl extends Activity implements OnLongClickListener {
 										int whichButton) {
 									int Bid = 0;
 									String et = editView.getText().toString();
-									if (et != null)
+									if (!et.equals(""))
 										Bid = Integer.valueOf(et);
 									aDTO.setBid(Bid);
 									disp();
@@ -168,6 +170,7 @@ public class MainViewControl extends Activity implements OnLongClickListener {
 		}
 	}
 
+	@SuppressLint("RtlHardcoded")
 	@Override
 	public boolean onLongClick(View v) {
 		if (v.getId() == R.id.mainImage) {
@@ -180,9 +183,30 @@ public class MainViewControl extends Activity implements OnLongClickListener {
 		} else {
 			String text = v.getTag().toString();
 			String[] str = text.split("_");
-			int i = Integer.valueOf(str[1]);
+			final int i = Integer.valueOf(str[1]);
+			final AuctionGuildDTO gDTO = AGA.get(i);
 			if (str[0].equals("Guild")) {
-				AGA.remove(i);
+				final EditText editView = new EditText(this);
+				editView.setGravity(Gravity.RIGHT);
+				new AlertDialog.Builder(this)
+						.setTitle("参加人数")
+						.setMessage(gDTO.getGuildName())
+						.setView(editView)
+						.setPositiveButton("OK",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int whichButton) {
+										String et = editView.getText().toString();
+										if (et.equals("")){
+											AGA.remove(i);
+										} else {
+											int j = Integer.valueOf(et);
+											if (j >= 0)
+												gDTO.setMemberCount(j);
+										}
+										disp();
+									}
+								}).show();
 			} else if (str[0].equals("Item")) {
 				AIA.remove(i);
 			}

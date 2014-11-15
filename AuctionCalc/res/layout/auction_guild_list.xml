@@ -17,20 +17,24 @@
 
         <TextView
             android:id="@+id/gNo"
-            style="@style/Number" />
+            style="@style/Number"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/gGuildName"
             style="@style/GuildName"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/gMemberCount"
-            style="@style/GuildMemberCount" />
+            style="@style/GuildMemberCount"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/gGuildPayd"
-            style="@style/GuildDevidendPaid" />
+            style="@style/GuildDevidendPaid"
+            android:textColor="@color/black" />
 
     </LinearLayout>
 

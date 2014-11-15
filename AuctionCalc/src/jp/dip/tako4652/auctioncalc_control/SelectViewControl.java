@@ -140,6 +140,7 @@ public class SelectViewControl extends Activity implements OnLongClickListener {
 											int whichButton) {
 										String et = editView.getText()
 												.toString();
+										if (et.equals("")) et = "0";
 										intent.putExtra(MainViewControl.NUMBER,
 												et);
 										setResult(Activity.RESULT_OK, intent);
