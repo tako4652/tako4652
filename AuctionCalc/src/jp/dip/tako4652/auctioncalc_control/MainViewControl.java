@@ -185,12 +185,13 @@ public class MainViewControl extends Activity implements OnLongClickListener {
 			String[] str = text.split("_");
 			final int i = Integer.valueOf(str[1]);
 			final AuctionGuildDTO gDTO = AGA.get(i);
+			final AuctionItemDTO iDTO = AIA.get(i);
 			if (str[0].equals("Guild")) {
 				final EditText editView = new EditText(this);
 				editView.setGravity(Gravity.RIGHT);
 				new AlertDialog.Builder(this)
 						.setTitle("参加人数")
-						.setMessage(gDTO.getGuildName())
+						.setMessage(gDTO.getGuildName() + "\n（そのままOKで削除）")
 						.setView(editView)
 						.setPositiveButton("OK",
 								new DialogInterface.OnClickListener() {
@@ -208,7 +209,24 @@ public class MainViewControl extends Activity implements OnLongClickListener {
 									}
 								}).show();
 			} else if (str[0].equals("Item")) {
-				AIA.remove(i);
+				new AlertDialog.Builder(this)
+				.setTitle("削除確認")
+				.setMessage(iDTO.getItemName())
+				.setPositiveButton("OK",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+								AIA.remove(i);
+								disp();
+							}
+						})
+				.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+
+					}
+				}).show();
 			}
 			disp();
 		}

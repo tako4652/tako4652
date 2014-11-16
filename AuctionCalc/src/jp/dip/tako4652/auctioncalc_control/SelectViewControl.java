@@ -97,6 +97,8 @@ public class SelectViewControl extends Activity implements OnLongClickListener {
 									String name = editView.getText().toString();
 									try {
 										SA.add(new SelectDTO(Tag, name));
+										disp();
+										dataSave();
 									} catch (GuildNameDuplicateException e) {
 										int resId = 0;
 										if (Tag.equals(MainViewControl.MISSION)) {
@@ -112,7 +114,6 @@ public class SelectViewControl extends Activity implements OnLongClickListener {
 												.getString(resId),
 												SelectView.TOAST_SHORT);
 									}
-									disp();
 								}
 							}).show();
 		} else {
@@ -132,7 +133,7 @@ public class SelectViewControl extends Activity implements OnLongClickListener {
 				editView.setGravity(Gravity.RIGHT);
 				new AlertDialog.Builder(this)
 						.setTitle("参加人数")
-						.setMessage(str[2])
+						.setMessage(str[2] + "\n（未定の場合はそのままOK）")
 						.setView(editView)
 						.setPositiveButton("OK",
 								new DialogInterface.OnClickListener() {
@@ -147,9 +148,7 @@ public class SelectViewControl extends Activity implements OnLongClickListener {
 										finish();
 									}
 								}).show();
-
 			} else {
-				dataSave();
 				setResult(Activity.RESULT_OK, intent);
 				finish();
 			}
@@ -159,10 +158,27 @@ public class SelectViewControl extends Activity implements OnLongClickListener {
 	@Override
 	public boolean onLongClick(View v) {
 		String text = v.getTag().toString();
-		sView.dispToast(text, SelectView.TOAST_SHORT);
 		String[] str = text.split("_");
-		int i = Integer.valueOf(str[1]);
-		SA.remove(i);
+		final int i = Integer.valueOf(str[1]);
+		new AlertDialog.Builder(this)
+		.setTitle("削除確認")
+		.setMessage(str[2])
+		.setPositiveButton("OK",
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog,
+							int whichButton) {
+						SA.remove(i);
+						disp();
+						dataSave();
+					}
+				})
+		.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+
+			}
+		}).show();
 		disp();
 		return true;
 	}
