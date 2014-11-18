@@ -14,8 +14,10 @@ public class ClockHands extends Hands {
 
 	@Override
 	public void setAngle(double angle) {
-		setPosX((int) (getCenterX() + Math.sin(Math.toRadians(angle)) * getRadius()));
-		setPosY((int) (getCenterY() - Math.cos(Math.toRadians(angle)) * getRadius()));
+		setPosX((int) (getCenterX() + Math.sin(Math.toRadians(angle))
+				* getRadius()));
+		setPosY((int) (getCenterY() - Math.cos(Math.toRadians(angle))
+				* getRadius()));
 	}
 
 	public void setVisible(boolean visible) {
@@ -27,11 +29,11 @@ public class ClockHands extends Hands {
 	}
 
 	public void draw(Canvas canvas) {
-		if(visible){
+		if (visible) {
 			Paint hPaint = new Paint();
 			hPaint.setAntiAlias(true);
 			hPaint.setDither(true);
-			switch(hand){
+			switch (hand) {
 			case Hands.HAND_HOUR:
 				hPaint.setColor(0xffff0000);
 				hPaint.setStrokeWidth(12);
@@ -48,7 +50,8 @@ public class ClockHands extends Hands {
 			hPaint.setStyle(Paint.Style.STROKE);
 			hPaint.setStrokeJoin(Paint.Join.ROUND);
 			hPaint.setStrokeCap(Paint.Cap.ROUND);
-			canvas.drawLine(getCenterX(), getCenterY(), getPosX(), getPosY(), hPaint);
+			canvas.drawLine(getCenterX(), getCenterY(), getPosX(), getPosY(),
+					hPaint);
 		}
 
 	}

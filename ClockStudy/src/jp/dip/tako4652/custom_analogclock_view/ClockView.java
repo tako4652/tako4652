@@ -11,7 +11,7 @@ public class ClockView extends View {
 	private static final int CLOCK_OFFSET_Y = -100;
 	private static final int MESSSAGE_OFFSET_Y = 250;
 	private Clock clk;
-	private String HMS="00:00:00";
+	private String HMS = "00:00:00";
 
 	private String message = "";
 
@@ -27,7 +27,8 @@ public class ClockView extends View {
 	/**
 	 * 画面サイズ変更時の通知
 	 *
-	 * @param w, h, oldw, oldh
+	 * @param w
+	 *            , h, oldw, oldh
 	 */
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		centerX = w / 2;
@@ -45,7 +46,7 @@ public class ClockView extends View {
 		} catch (NumberFormatException e) {
 
 		} finally {
-			if (!message.equals("")){
+			if (!message.equals("")) {
 				Paint tPaint = new Paint();
 				tPaint.setAntiAlias(true);
 				tPaint.setDither(true);
@@ -55,14 +56,15 @@ public class ClockView extends View {
 				tPaint.setStrokeWidth(1);
 				int tCenterX = (int) (tPaint.measureText(message) / 2);
 
-				canvas.drawText(message, centerX - tCenterX, centerY + MESSSAGE_OFFSET_Y, tPaint);
+				canvas.drawText(message, centerX - tCenterX, centerY
+						+ MESSSAGE_OFFSET_Y, tPaint);
 
 			}
 		}
 		clk.draw(canvas);
 	}
 
-	public void setTime(String hms){
+	public void setTime(String hms) {
 		HMS = hms;
 	}
 
@@ -74,7 +76,8 @@ public class ClockView extends View {
 		clk.setDispDigital(dispDigital);
 	}
 
-	public void setHandsVisible(boolean hHandDisp,boolean mHandDisp,boolean sHandDisp) {
+	public void setHandsVisible(boolean hHandDisp, boolean mHandDisp,
+			boolean sHandDisp) {
 		clk.setVisible(hHandDisp, mHandDisp, sHandDisp);
 	}
 

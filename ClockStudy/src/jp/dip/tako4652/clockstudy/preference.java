@@ -15,20 +15,24 @@ public class preference extends PreferenceActivity {
 	}
 
 	@SuppressWarnings("deprecation")
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,  String key) {
-		CheckBoxPreference justDisp = (CheckBoxPreference)getPreferenceScreen().findPreference("justDisp");
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+			String key) {
+		CheckBoxPreference justDisp = (CheckBoxPreference) getPreferenceScreen()
+				.findPreference("justDisp");
 		if (justDisp.isChecked()) {
 			justDisp.setSummary(R.string.justDispOn);
 		} else {
 			justDisp.setSummary(R.string.justDispOff);
 		}
-		CheckBoxPreference halfDisp = (CheckBoxPreference)getPreferenceScreen().findPreference("justDisp");
+		CheckBoxPreference halfDisp = (CheckBoxPreference) getPreferenceScreen()
+				.findPreference("justDisp");
 		if (halfDisp.isChecked()) {
 			halfDisp.setSummary(R.string.halfDispOn);
 		} else {
 			halfDisp.setSummary(R.string.halfDispOff);
 		}
-		CheckBoxPreference bmpDisp = (CheckBoxPreference)getPreferenceScreen().findPreference("bmpDisp");
+		CheckBoxPreference bmpDisp = (CheckBoxPreference) getPreferenceScreen()
+				.findPreference("bmpDisp");
 		if (bmpDisp.isChecked()) {
 			bmpDisp.setSummary(R.string.bmpDispOn);
 		} else {

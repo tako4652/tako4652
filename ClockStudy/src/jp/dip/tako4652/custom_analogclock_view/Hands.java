@@ -23,7 +23,7 @@ public abstract class Hands {
 		this.centerY = centerY;
 	}
 
-	public void setCenter(int centerX, int centerY,int radius) {
+	public void setCenter(int centerX, int centerY, int radius) {
 		this.centerX = centerX;
 		this.centerY = centerY;
 		this.radius = radius;
