@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">とけいのおべんきょ</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="level0">れべる０（正時のみ）</string><string name="level1">れべる１（30分刻み）</string>
+    <string name="level2">れべる２（15分刻み）</string>
+    <string name="level3">れべる３（10分刻み）</string>
+    <string name="level4">れべる４（5分刻み）</string>
+    <string name="level5">れべる５（1分刻み）</string>
+    <string name="justDispOff">「ちょうど」を表示しない</string>
+    <string name="justDispOn">「ちょうど」を表示する</string>
+    <string name="halfDispOff">「30ぷん」で表示する</string>
+    <string name="halfDispOn">「はん」で表示する</string>
+    <string name="bmpDispOff">説明画像なし</string>
+    <string name="bmpDispOn">説明画像あり</string>
+    
+
+</resources>
