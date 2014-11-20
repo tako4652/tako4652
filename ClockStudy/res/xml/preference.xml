@@ -1,8 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    <CheckBoxPreference android:title="正時の表現" android:summaryOn="@string/justDispOn" android:summaryOff="@string/justDispOff" android:key="justDisp" android:defaultValue="checked"/>
-    <CheckBoxPreference android:title="30分の表現" android:summaryOn="@string/halfDispOn" android:summaryOff="@string/halfDispOff" android:key="halfDisp" android:defaultValue="checked"/>
-    <CheckBoxPreference android:summaryOn="@string/bmpDispOn" android:summaryOff="@string/bmpDispOff" android:key="bmpDisp" android:title="説明画像"/>
-    
+    <CheckBoxPreference
+        android:title="正時の表現"
+        android:summaryOn="@string/justDispOn"
+        android:summaryOff="@string/justDispOff"
+        android:key="justDisp"
+        android:defaultValue="checked"/>
+    <CheckBoxPreference
+        android:title="30分の表現"
+        android:summaryOn="@string/halfDispOn"
+        android:summaryOff="@string/halfDispOff"
+        android:key="halfDisp"
+        android:defaultValue="checked"/>
+    <CheckBoxPreference
+        android:summaryOn="@string/bmpDispOn"
+        android:summaryOff="@string/bmpDispOff"
+        android:key="bmpDisp"
+        android:title="説明画像" android:defaultValue="checked"/>
+    <CheckBoxPreference
+        android:summaryOff="@string/handsRotationOff"
+        android:summaryOn="@string/handsRotationOn"
+        android:title="針回転モード"
+        android:key="handsRotation" android:defaultValue="checked"/>
+    <ListPreference
+        android:key="timeSelect"
+        android:title="時間選択"
+        android:summary="問題を表示する時間を選択してください"
+        android:entryValues="@array/timeSelect"
+        android:entries="@array/timeSelectDisp"
+        android:dialogTitle="時間選択"/>
+
 
 </PreferenceScreen>

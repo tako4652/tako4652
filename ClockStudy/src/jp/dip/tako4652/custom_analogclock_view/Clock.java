@@ -1,11 +1,7 @@
 package jp.dip.tako4652.custom_analogclock_view;
 
-import jp.dip.tako4652.clockstudy.R;
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
@@ -15,7 +11,13 @@ public class Clock {
 	private int centerY;
 	private int radius;
 
-	private boolean dispDigital = true;
+	private String digitalClockFormat;
+	private boolean digitalClockDisp12h;
+	private int digitalClockSize;
+	private int digitalClockColor;
+	private int digitalClockOffsetX;
+	private int digitalClockOffsetY;
+	private boolean digitalClockVisible = true;
 
 	private ClockHands chHour;
 	private ClockHands chMinute;
@@ -23,52 +25,81 @@ public class Clock {
 
 	private boolean just = true;
 	private boolean half = true;
-	private boolean bmp = false;
-	private Bitmap image;
 
-	public Clock(Context context) {
-		chHour = new ClockHands(Hands.HAND_HOUR);
-		chMinute = new ClockHands(Hands.HAND_MINUTE);
-		chSecond = new ClockHands(Hands.HAND_SECOND);
+	private Bitmap bgImage;
+	private int bgImageCenterX;
+	private int bgImageCenterY;
+	private int bgImageOffsetX;
+	private int bgImageOffsetY;
+	private boolean bgImageVisible = false;
 
-		Resources r = context.getResources();
-		image = BitmapFactory.decodeResource(r, R.drawable.none2);
+	private boolean centerAdjustMode;
+
+	public Clock() {
+		chHour = new ClockHands(ClockHands.HAND_HOUR);
+		chMinute = new ClockHands(ClockHands.HAND_MINUTE);
+		chSecond = new ClockHands(ClockHands.HAND_SECOND);
+		setDefalutDigigalClock();
 	}
 
-	public void setCenter(int centerX, int centerY, int radius) {
+	public Clock(ClockHands hourHand, ClockHands miniteHand, ClockHands secondHand) {
+		chHour = hourHand;
+		chMinute = miniteHand;
+		chSecond = secondHand;
+		setDefalutDigigalClock();
+	}
+
+	void setDefalutDigigalClock() {
+		this.digitalClockFormat = "%02d:%02d:%02d";
+		this.digitalClockDisp12h = false;
+		this.digitalClockSize = 48;
+		this.digitalClockColor = 0xffff0000;
+	}
+	void setDigitalClockFormat(int size, int color) {
+		this.digitalClockSize = size;
+		this.digitalClockColor = color;
+	}
+	void setDigitalDisp12h(boolean disp12h) { this.digitalClockDisp12h = disp12h; }
+	void setDigitalClockStringFormat(String format) { this.digitalClockFormat = format; }
+	void setDigitalClockOffset(int offsetX, int offsetY) {
+		this.digitalClockOffsetX = offsetX;
+		this.digitalClockOffsetY = offsetY;
+	}
+	void setDigitalClockVisible(boolean visible) { this.digitalClockVisible = visible; }
+
+	void setBgImage(Bitmap image) {
+		this.bgImage = image;
+		bgImageCenterX = image.getWidth() / 2;
+		bgImageCenterY = image.getHeight() /2;
+	}
+	void setBgImageOffset(int offsetX, int offsetY) {
+		this.bgImageOffsetX = offsetX;
+		this.bgImageOffsetY = offsetY;
+	}
+	void setBgImageVisible(boolean visible) { this.bgImageVisible = visible; }
+
+	void setCenter(int centerX, int centerY, int radius) {
 		this.centerX = centerX;
 		this.centerY = centerY;
 		this.radius = radius;
 
-		chHour.setCenter(centerX, centerY, (int) (radius * 0.55));
-		chMinute.setCenter(centerX, centerY, (int) (radius * 0.85));
-		chSecond.setCenter(centerX, centerY, (int) (radius * 0.9));
+		chHour.setHands(centerX, centerY, radius);
+		chMinute.setHands(centerX, centerY, radius);
+		chSecond.setHands(centerX, centerY, radius);
 	}
 
-	public void setVisible(boolean hHandDisp, boolean mHandDisp,
-			boolean sHandDisp) {
+	void setHandsVisible(boolean hHandDisp, boolean mHandDisp, boolean sHandDisp) {
 		chHour.setVisible(hHandDisp);
 		chMinute.setVisible(mHandDisp);
 		chSecond.setVisible(sHandDisp);
 	}
 
-	public void setDispDigital(boolean dispDigital) {
-		this.dispDigital = dispDigital;
-	}
+	void setJust(boolean just) { this.just = just; }
+	void setHalf(boolean half) { this.half = half; }
 
-	public void setJust(boolean just) {
-		this.just = just;
-	}
+	void setCenterAdjustMode(boolean adjustMode) { this.centerAdjustMode = adjustMode; }
 
-	public void setHalf(boolean half) {
-		this.half = half;
-	}
-
-	public void setBmp(boolean bmp) {
-		this.bmp = bmp;
-	}
-
-	public void setTime(String time) throws NumberFormatException {
+	void setTime(String time) {
 		String[] str = time.split(":");
 		int hour = Integer.valueOf(str[0]);
 		int minute = Integer.valueOf(str[1]);
@@ -94,42 +125,90 @@ public class Clock {
 		chSecond.setAngle(sAngle);
 	}
 
+	void draw(Canvas canvas) {
+
+		if (bgImageVisible) canvas.drawBitmap(bgImage, centerX - bgImageCenterX + bgImageOffsetX, centerY - bgImageCenterY + bgImageOffsetY, null);
+
+		if (digitalClockVisible) {
+			String hms = digitalFormatter();
+			Paint dPaint = new Paint();
+			dPaint.setAntiAlias(true);
+			dPaint.setDither(true);
+			dPaint.setColor(digitalClockColor);
+			dPaint.setTextSize(digitalClockSize);
+			int tCenterX = (int) (dPaint.measureText(hms) / 2);
+
+			canvas.drawText(hms, centerX - tCenterX + digitalClockOffsetX, centerY + digitalClockOffsetY, dPaint);
+		}
+
+		if (!bgImageVisible) {
+			Paint cPaint = new Paint();
+			cPaint.setAntiAlias(true);
+			cPaint.setDither(true);
+			cPaint.setColor(0xff000000);
+			cPaint.setStyle(Paint.Style.STROKE);
+			cPaint.setStrokeWidth(6);
+
+			canvas.drawCircle(centerX, centerY, (float) (radius * 0.98), cPaint);
+
+			for (int i = 0; i < 360; i += (360 / 12)) {
+				int posX, posY;
+				posX = (int) (centerX + Math.sin(Math.toRadians(i)) * radius
+						* 0.95);
+				posY = (int) (centerY - Math.cos(Math.toRadians(i)) * radius
+						* 0.95);
+
+				canvas.drawPoint(posX, posY, cPaint);
+			}
+		}
+
+		if (centerAdjustMode) {
+			Paint aPaint = new Paint();
+			aPaint.setAntiAlias(true);
+			aPaint.setDither(true);
+			aPaint.setColor(0xffff0000);
+			aPaint.setStyle(Paint.Style.STROKE);
+			aPaint.setStrokeWidth(3);
+
+			canvas.drawCircle(centerX, centerY, (float) (radius * 0.98), aPaint);
+
+			for (int i = 0; i < 360; i += (360 / 12)) {
+				int posX, posY;
+				posX = (int) (centerX + Math.sin(Math.toRadians(i)) * radius
+						* 0.95);
+				posY = (int) (centerY - Math.cos(Math.toRadians(i)) * radius
+						* 0.95);
+
+				canvas.drawPoint(posX, posY, aPaint);
+			}
+		}
+
+		chHour.draw(canvas);
+		chMinute.draw(canvas);
+		chSecond.draw(canvas);
+	}
+
 	@SuppressLint("DefaultLocale")
-	public void draw(Canvas canvas) {
+	private String digitalFormatter() {
+		String hms = "";
 
-		if (bmp)
-			canvas.drawBitmap(image, 3, 40, null);
+		int hour = chHour.getTime();
+		if (digitalClockDisp12h && hour == 0) hour = 12;
 
-		if (dispDigital) {
-			String hms = "";
-
-			int hour = chHour.getTime();
-			if (hour == 0)
-				hour = 12;
-
+		if (digitalClockFormat.equals("かな")){
 			boolean check = false;
 			int minute = chMinute.getTime();
 			String strM = String.valueOf(minute);
-			if (strM.substring(strM.length() - 1).equals("0"))
-				check = true;
-			if (strM.substring(strM.length() - 1).equals("1"))
-				check = true;
-			if (strM.substring(strM.length() - 1).equals("2"))
-				check = false;
-			if (strM.substring(strM.length() - 1).equals("3"))
-				check = true;
-			if (strM.substring(strM.length() - 1).equals("4"))
-				check = true;
-			if (strM.substring(strM.length() - 1).equals("5"))
-				check = false;
-			if (strM.substring(strM.length() - 1).equals("6"))
-				check = true;
-			if (strM.substring(strM.length() - 1).equals("7"))
-				check = false;
-			if (strM.substring(strM.length() - 1).equals("8"))
-				check = true;
-			if (strM.substring(strM.length() - 1).equals("9"))
-				check = false;
+			if (strM.substring(strM.length() - 1).equals("0")) check = true;
+			if (strM.substring(strM.length() - 1).equals("1")) check = true;
+			if (strM.substring(strM.length() - 1).equals("2")) check = false;
+			if (strM.substring(strM.length() - 1).equals("3")) check = true;
+			if (strM.substring(strM.length() - 1).equals("4")) check = true;
+			if (strM.substring(strM.length() - 1).equals("5")) check = false;
+			if (strM.substring(strM.length() - 1).equals("6")) check = true;
+			if (strM.substring(strM.length() - 1).equals("7")) check = false;
+			if (strM.substring(strM.length() - 1).equals("8")) check = true;
+			if (strM.substring(strM.length() - 1).equals("9")) check = false;
 
 			if (!chSecond.getVisible()) {
 				if (minute == 0) {
@@ -150,45 +229,14 @@ public class Clock {
 						hms += "ふん";
 					}
 				}
-			} else {
-				hms = String.format("%02d:%02d:%02d", hour, chMinute.getTime(),
-						chSecond.getTime());
 			}
-			Paint tPaint = new Paint();
-			tPaint.setAntiAlias(true);
-			tPaint.setDither(true);
-			tPaint.setColor(0xffff0000);
-			tPaint.setTextSize(48);
-			tPaint.setStyle(Paint.Style.STROKE);
-			tPaint.setStrokeWidth(1);
-			int tCenterX = (int) (tPaint.measureText(hms) / 2);
-
-			canvas.drawText(hms, centerX - tCenterX, centerY + 350, tPaint);
-		}
-
-		if (!bmp) {
-			Paint cPaint = new Paint();
-			cPaint.setAntiAlias(true);
-			cPaint.setDither(true);
-			cPaint.setColor(0xffff0000);
-			cPaint.setStyle(Paint.Style.STROKE);
-			cPaint.setStrokeWidth(6);
-
-			canvas.drawCircle(centerX, centerY, (float) (radius * 0.98), cPaint);
-
-			for (int i = 0; i < 360; i += (360 / 12)) {
-				int posX, posY;
-				posX = (int) (centerX + Math.sin(Math.toRadians(i)) * radius
-						* 0.95);
-				posY = (int) (centerY - Math.cos(Math.toRadians(i)) * radius
-						* 0.95);
-
-				canvas.drawPoint(posX, posY, cPaint);
+		} else {
+			if (chHour.getVisible() && chMinute.getVisible() && chSecond.getVisible()) {
+				hms = String.format(digitalClockFormat, hour, chMinute.getTime(), chSecond.getTime());
+			} else if (chHour.getVisible() && chMinute.getVisible()) {
+				hms = String.format(digitalClockFormat, chHour.getTime(), chMinute.getTime());
 			}
 		}
-
-		chHour.draw(canvas);
-		chMinute.draw(canvas);
-		chSecond.draw(canvas);
+		return hms;
 	}
 }

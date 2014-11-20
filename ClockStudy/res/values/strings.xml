@@ -15,6 +15,20 @@
     <string name="halfDispOn">「はん」で表示する</string>
     <string name="bmpDispOff">説明画像なし</string>
     <string name="bmpDispOn">説明画像あり</string>
+    <string name="handsRotationOff">針をぐるぐる回しません</string>
+    <string name="handsRotationOn">針をぐるぐる回します</string>
+    
+    <string-array name="timeSelectDisp">
+        <item >2秒</item><item>5秒</item><item >10秒</item>
+        <item >15秒</item>
+    </string-array><string-array name="timeSelect">
+        <item>2</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        
+        
+    </string-array>
     
 
 </resources>
