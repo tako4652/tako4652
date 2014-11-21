@@ -20,7 +20,7 @@
     <CheckBoxPreference
         android:summaryOff="@string/handsRotationOff"
         android:summaryOn="@string/handsRotationOn"
-        android:title="針回転モード"
+        android:title="針回転"
         android:key="handsRotation" android:defaultValue="checked"/>
     <ListPreference
         android:key="timeSelect"
@@ -29,6 +29,7 @@
         android:entryValues="@array/timeSelect"
         android:entries="@array/timeSelectDisp"
         android:dialogTitle="時間選択"/>
+    <CheckBoxPreference android:title="効果音" android:defaultValue="checked" android:key="sound" android:summaryOn="@string/soundOn" android:summaryOff="@string/soundOff"/>
 
 
 </PreferenceScreen>

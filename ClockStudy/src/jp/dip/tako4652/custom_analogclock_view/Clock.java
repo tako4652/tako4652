@@ -35,20 +35,169 @@ public class Clock {
 
 	private boolean centerAdjustMode;
 
-	public Clock() {
+	/**
+	 * コンストラクター
+	 *
+	 * 時計針簡易設定
+	 *
+	 */
+	Clock() {
 		chHour = new ClockHands(ClockHands.HAND_HOUR);
 		chMinute = new ClockHands(ClockHands.HAND_MINUTE);
 		chSecond = new ClockHands(ClockHands.HAND_SECOND);
 		setDefalutDigigalClock();
 	}
 
-	public Clock(ClockHands hourHand, ClockHands miniteHand, ClockHands secondHand) {
+	/**
+	 * コンストラクター
+	 *
+	 * 時計針詳細設定
+	 * @param hourHand 各種設定を定義したClockHands
+	 * @param miniteHand 各種設定を定義したClockHands
+	 * @param secondHand 各種設定を定義したClockHands
+	 */
+	Clock(ClockHands hourHand, ClockHands miniteHand, ClockHands secondHand) {
 		chHour = hourHand;
 		chMinute = miniteHand;
 		chSecond = secondHand;
 		setDefalutDigigalClock();
 	}
 
+	/**
+	 * draw 時計を描く
+	 *
+	 * @param canvas
+	 */
+	void draw(Canvas canvas) {
+
+		if (bgImageVisible) canvas.drawBitmap(bgImage, centerX - bgImageCenterX + bgImageOffsetX, centerY - bgImageCenterY + bgImageOffsetY, null);
+
+		if (digitalClockVisible) {
+			String hms = digitalFormatter();
+			Paint dPaint = new Paint();
+			dPaint.setAntiAlias(true);
+			dPaint.setDither(true);
+			dPaint.setColor(digitalClockColor);
+			dPaint.setTextSize(digitalClockSize);
+			int tCenterX = (int) (dPaint.measureText(hms) / 2);
+
+			canvas.drawText(hms, centerX - tCenterX + digitalClockOffsetX, centerY + digitalClockOffsetY, dPaint);
+		}
+
+		if (!bgImageVisible) {
+			Paint cPaint = new Paint();
+			cPaint.setAntiAlias(true);
+			cPaint.setDither(true);
+			cPaint.setColor(0xff000000);
+			cPaint.setStyle(Paint.Style.STROKE);
+			cPaint.setStrokeWidth(6);
+
+			canvas.drawCircle(centerX, centerY, (float) (radius * 0.98), cPaint);
+
+			for (int i = 0; i < 360; i += (360 / 12)) {
+				int posX, posY;
+				posX = (int) (centerX + Math.sin(Math.toRadians(i)) * radius
+						* 0.95);
+				posY = (int) (centerY - Math.cos(Math.toRadians(i)) * radius
+						* 0.95);
+
+				canvas.drawPoint(posX, posY, cPaint);
+			}
+		}
+
+		if (centerAdjustMode) {
+			Paint aPaint = new Paint();
+			aPaint.setAntiAlias(true);
+			aPaint.setDither(true);
+			aPaint.setColor(0xffff0000);
+			aPaint.setStyle(Paint.Style.STROKE);
+			aPaint.setStrokeWidth(3);
+
+			canvas.drawCircle(centerX, centerY, (float) (radius * 0.98), aPaint);
+
+			for (int i = 0; i < 360; i += (360 / 12)) {
+				int posX, posY;
+				posX = (int) (centerX + Math.sin(Math.toRadians(i)) * radius
+						* 0.95);
+				posY = (int) (centerY - Math.cos(Math.toRadians(i)) * radius
+						* 0.95);
+
+				canvas.drawPoint(posX, posY, aPaint);
+			}
+		}
+
+		chHour.draw(canvas);
+		chMinute.draw(canvas);
+		chSecond.draw(canvas);
+	}
+
+	/**
+	 * digitalFormatter デジタル時計のフォーマット
+	 * 「かな」で「○じ○ふん」の形式へ。
+	 * その他はString.formatの書式に準ずる。
+	 *
+	 * @return String hms = formatted string
+	 */
+	@SuppressLint("DefaultLocale")
+	private String digitalFormatter() {
+		String hms = "";
+
+		int hour = chHour.getTime();
+		if (digitalClockDisp12h && hour == 0) hour = 12;
+
+		if (digitalClockFormat.equals("かな")){
+			boolean check = false;
+			int minute = chMinute.getTime();
+			String strM = String.valueOf(minute);
+			if (strM.substring(strM.length() - 1).equals("0")) check = true;
+			if (strM.substring(strM.length() - 1).equals("1")) check = true;
+			if (strM.substring(strM.length() - 1).equals("2")) check = false;
+			if (strM.substring(strM.length() - 1).equals("3")) check = true;
+			if (strM.substring(strM.length() - 1).equals("4")) check = true;
+			if (strM.substring(strM.length() - 1).equals("5")) check = false;
+			if (strM.substring(strM.length() - 1).equals("6")) check = true;
+			if (strM.substring(strM.length() - 1).equals("7")) check = false;
+			if (strM.substring(strM.length() - 1).equals("8")) check = true;
+			if (strM.substring(strM.length() - 1).equals("9")) check = false;
+
+			if (!chSecond.getVisible()) {
+				if (minute == 0) {
+					if (just)
+						hms = String.format("%dじちょうど", hour);
+					else
+						hms = String.format("%dじ", hour);
+				} else if (minute == 30) {
+					if (half)
+						hms = String.format("%dじはん", hour);
+					else
+						hms = String.format("%dじ30ぷん", hour);
+				} else {
+					hms = String.format("%dじ%d", hour, minute);
+					if (check) {
+						hms += "ぷん";
+					} else {
+						hms += "ふん";
+					}
+				}
+			}
+		} else {
+			if (chHour.getVisible() && chMinute.getVisible() && chSecond.getVisible()) {
+				hms = String.format(digitalClockFormat, hour, chMinute.getTime(), chSecond.getTime());
+			} else if (chHour.getVisible() && chMinute.getVisible()) {
+				hms = String.format(digitalClockFormat, chHour.getTime(), chMinute.getTime());
+			}
+		}
+		return hms;
+	}
+
+	/**
+	 * 以下の要素がセットされる。
+	 *
+	 * digitalClockFormat = "%02d:%02d:%02d";
+	 * digitalClockDisp12h = false;
+	 * digitalClockSize = 48;
+	 * digitalClockColor = 0xffff0000;
+	 */
 	void setDefalutDigigalClock() {
 		this.digitalClockFormat = "%02d:%02d:%02d";
 		this.digitalClockDisp12h = false;
@@ -123,120 +272,5 @@ public class Clock {
 		chHour.setAngle(hAngle);
 		chMinute.setAngle(mAngle);
 		chSecond.setAngle(sAngle);
-	}
-
-	void draw(Canvas canvas) {
-
-		if (bgImageVisible) canvas.drawBitmap(bgImage, centerX - bgImageCenterX + bgImageOffsetX, centerY - bgImageCenterY + bgImageOffsetY, null);
-
-		if (digitalClockVisible) {
-			String hms = digitalFormatter();
-			Paint dPaint = new Paint();
-			dPaint.setAntiAlias(true);
-			dPaint.setDither(true);
-			dPaint.setColor(digitalClockColor);
-			dPaint.setTextSize(digitalClockSize);
-			int tCenterX = (int) (dPaint.measureText(hms) / 2);
-
-			canvas.drawText(hms, centerX - tCenterX + digitalClockOffsetX, centerY + digitalClockOffsetY, dPaint);
-		}
-
-		if (!bgImageVisible) {
-			Paint cPaint = new Paint();
-			cPaint.setAntiAlias(true);
-			cPaint.setDither(true);
-			cPaint.setColor(0xff000000);
-			cPaint.setStyle(Paint.Style.STROKE);
-			cPaint.setStrokeWidth(6);
-
-			canvas.drawCircle(centerX, centerY, (float) (radius * 0.98), cPaint);
-
-			for (int i = 0; i < 360; i += (360 / 12)) {
-				int posX, posY;
-				posX = (int) (centerX + Math.sin(Math.toRadians(i)) * radius
-						* 0.95);
-				posY = (int) (centerY - Math.cos(Math.toRadians(i)) * radius
-						* 0.95);
-
-				canvas.drawPoint(posX, posY, cPaint);
-			}
-		}
-
-		if (centerAdjustMode) {
-			Paint aPaint = new Paint();
-			aPaint.setAntiAlias(true);
-			aPaint.setDither(true);
-			aPaint.setColor(0xffff0000);
-			aPaint.setStyle(Paint.Style.STROKE);
-			aPaint.setStrokeWidth(3);
-
-			canvas.drawCircle(centerX, centerY, (float) (radius * 0.98), aPaint);
-
-			for (int i = 0; i < 360; i += (360 / 12)) {
-				int posX, posY;
-				posX = (int) (centerX + Math.sin(Math.toRadians(i)) * radius
-						* 0.95);
-				posY = (int) (centerY - Math.cos(Math.toRadians(i)) * radius
-						* 0.95);
-
-				canvas.drawPoint(posX, posY, aPaint);
-			}
-		}
-
-		chHour.draw(canvas);
-		chMinute.draw(canvas);
-		chSecond.draw(canvas);
-	}
-
-	@SuppressLint("DefaultLocale")
-	private String digitalFormatter() {
-		String hms = "";
-
-		int hour = chHour.getTime();
-		if (digitalClockDisp12h && hour == 0) hour = 12;
-
-		if (digitalClockFormat.equals("かな")){
-			boolean check = false;
-			int minute = chMinute.getTime();
-			String strM = String.valueOf(minute);
-			if (strM.substring(strM.length() - 1).equals("0")) check = true;
-			if (strM.substring(strM.length() - 1).equals("1")) check = true;
-			if (strM.substring(strM.length() - 1).equals("2")) check = false;
-			if (strM.substring(strM.length() - 1).equals("3")) check = true;
-			if (strM.substring(strM.length() - 1).equals("4")) check = true;
-			if (strM.substring(strM.length() - 1).equals("5")) check = false;
-			if (strM.substring(strM.length() - 1).equals("6")) check = true;
-			if (strM.substring(strM.length() - 1).equals("7")) check = false;
-			if (strM.substring(strM.length() - 1).equals("8")) check = true;
-			if (strM.substring(strM.length() - 1).equals("9")) check = false;
-
-			if (!chSecond.getVisible()) {
-				if (minute == 0) {
-					if (just)
-						hms = String.format("%dじちょうど", hour);
-					else
-						hms = String.format("%dじ", hour);
-				} else if (minute == 30) {
-					if (half)
-						hms = String.format("%dじはん", hour);
-					else
-						hms = String.format("%dじ30ぷん", hour);
-				} else {
-					hms = String.format("%dじ%d", hour, minute);
-					if (check) {
-						hms += "ぷん";
-					} else {
-						hms += "ふん";
-					}
-				}
-			}
-		} else {
-			if (chHour.getVisible() && chMinute.getVisible() && chSecond.getVisible()) {
-				hms = String.format(digitalClockFormat, hour, chMinute.getTime(), chSecond.getTime());
-			} else if (chHour.getVisible() && chMinute.getVisible()) {
-				hms = String.format(digitalClockFormat, chHour.getTime(), chMinute.getTime());
-			}
-		}
-		return hms;
 	}
 }

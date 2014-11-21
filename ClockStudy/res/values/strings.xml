@@ -29,6 +29,9 @@
         
         
     </string-array>
+    <string name="soundOff">効果音を鳴らしません</string><string name="soundOn">効果音を鳴らします</string>
+    
+    <string name="soundAdd">効果音提供：魔王魂</string>
     
 
 </resources>

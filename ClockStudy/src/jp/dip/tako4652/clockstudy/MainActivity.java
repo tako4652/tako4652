@@ -1,22 +1,68 @@
 package jp.dip.tako4652.clockstudy;
 
-import jp.dip.tako4652.custom_analogclock_view.ClockView;
+import java.io.IOException;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	public static final int MENU_SELECT_A = 0;
+
+	private SoundPool soundPool;
+	private int soundId = -1;
+	private boolean sound = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		new ClockView(this);
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		SharedPreferences sharedPreferences = PreferenceManager
+				.getDefaultSharedPreferences(this);
+
+		boolean snd = sharedPreferences.getBoolean("sound", true);
+		if (snd) {
+			this.sound = true;
+		} else {
+			this.sound = false;
+		}
+
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
+		soundPool = new SoundPool(20, AudioManager.STREAM_MUSIC, 0);
+
+		try{
+			AssetManager assetManager = getAssets();
+			AssetFileDescriptor descriptor;
+			descriptor = assetManager.openFd("se_maoudamashii_magical01.wav");
+			soundId = soundPool.load(descriptor, 1);
+		} catch (IOException e) {
+			Toast.makeText(this, "Couldn't load sound effect from asset, " + e.getMessage(), Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+
+		soundPool.unload(soundId);
 	}
 
 	public void onClick(View v) {
@@ -41,6 +87,8 @@ public class MainActivity extends Activity {
 			level = 5;
 			break;
 		}
+
+		if (soundId != -1 && sound) soundPool.play(soundId, 1, 1, 0, 0, 1);
 
 		Intent intent = new Intent(this, SubActivity.class);
 		intent.putExtra("Level", String.valueOf(level));

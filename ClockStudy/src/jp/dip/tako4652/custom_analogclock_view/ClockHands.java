@@ -27,11 +27,6 @@ public class ClockHands {
 	ClockHands() { this.hand = 0; }
 	ClockHands(int hand) { this.hand = hand; }
 
-	void setAngle(double angle) {
-		posX = ((int) (centerX + Math.sin(Math.toRadians(angle)) * length));
-		posY = ((int) (centerY - Math.cos(Math.toRadians(angle)) * length));
-	}
-
 	void setHands(int centerX, int centerY, int length) {
 		this.centerX = centerX;
 		this.centerY = centerY;
@@ -77,11 +72,10 @@ public class ClockHands {
 		}
 	}
 
-	void setVisible(boolean visible) { this.visible = visible; }
-	boolean getVisible() { return this.visible; }
-
-	void setTime(int time) { this.time = time; }
-	int getTime() { return time; }
+	void setAngle(double angle) {
+		posX = ((int) (centerX + Math.sin(Math.toRadians(angle)) * length));
+		posY = ((int) (centerY - Math.cos(Math.toRadians(angle)) * length));
+	}
 
 	void draw(Canvas canvas) {
 		if (visible) {
@@ -98,4 +92,10 @@ public class ClockHands {
 		}
 
 	}
+
+	void setVisible(boolean visible) { this.visible = visible; }
+	boolean getVisible() { return this.visible; }
+
+	void setTime(int time) { this.time = time; }
+	int getTime() { return time; }
 }

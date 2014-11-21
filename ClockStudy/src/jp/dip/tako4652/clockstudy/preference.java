@@ -72,6 +72,12 @@ public class preference extends PreferenceActivity implements OnSharedPreference
 		}
 		ListPreference timeSelect = (ListPreference) getPreferenceScreen().findPreference("timeSelect");
 		timeSelect.setSummary(timeSelect.getEntry());
+		CheckBoxPreference sound = (CheckBoxPreference) getPreferenceScreen().findPreference("sound");
+		if (sound.isChecked()) {
+			sound.setSummary(R.string.soundOn);
+		} else {
+			sound.setSummary(R.string.soundOff);
+		}
 	}
 
 	@SuppressWarnings("deprecation")
